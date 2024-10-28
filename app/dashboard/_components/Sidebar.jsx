@@ -16,19 +16,19 @@ const Sidebar = () => {
         {
             id: 1,
             name: "Create New",
-            path: "/create-new",
+            path: "/dashboard/create-new",
             icon: FileVideo
         },
         {
             id: 1,
             name: "Upgrade",
-            path: "/upgrade",
+            path: "/dashboard/upgrade",
             icon: ShieldPlus
         },
         {
             id: 1,
             name: "Account",
-            path: "/account",
+            path: "/dashboard/account",
             icon: CircleUser
         }
     ]
@@ -42,7 +42,7 @@ const Sidebar = () => {
             MenuOptions.map((menu, index)=>(
                 <Link href={menu.path} key={index}>
                     <div className={`cursor-pointer rounded-md flex items-center 
-                        gap-3 p-3 hover:bg-primary hover:text-white ${path==menu.path ? 'bg-primary text-white' : 'bg-white'}`}>
+                        gap-3 p-3 hover:bg-purple-500 hover:text-white ${path==menu.path ? 'bg-primary text-white' : 'bg-white'}`}>
                         {<menu.icon/>}
                         <h3 className='text-xl'>{menu.name}</h3>
                     </div>

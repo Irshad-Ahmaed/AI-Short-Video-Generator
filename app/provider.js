@@ -20,11 +20,11 @@ const Provider = ({ children }) => {
     console.log(result);
 
     if(!result[0]){
-        await db.insert(Users).values({
-            name:user.fullName,
-            email:user?.primaryEmailAddress?.emailAddress,
-            imageUrl: user?.imageUrl
-        });
+      await db.insert(Users).values({
+        name:user.fullName,
+        email:user?.primaryEmailAddress?.emailAddress,
+        imageUrl: user?.imageUrl
+      });
     }
   };
 
