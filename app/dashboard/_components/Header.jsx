@@ -10,6 +10,7 @@ const Header = () => {
             <Image className='bg-white' src={'/lg.jpg'} width={30} height={30} />
             <h2 className='text-xl font-bold'>Ai Short Vid</h2>
         </div>
+        
         <div className='flex items-center gap-5'>
           <Button>Dashboard</Button>
           <UserButton />
