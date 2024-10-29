@@ -13,7 +13,7 @@ const SelectDuration = ({onUserSelect}) => {
     <div className='mt-7 flex flex-col gap-3'>
         <h2 className='font-bold text-2xl text-primary'>Duration</h2>
         <p className='text-gray-500'>Select the video duration</p>
-        <Select onValueChange={(value)=> onUserSelect('topic', value)}>
+        <Select onValueChange={(value)=> onUserSelect('duration', value)}>
             <SelectTrigger className="w-full p-6 text-lg">
                 <SelectValue placeholder="Content Type" />
             </SelectTrigger>
