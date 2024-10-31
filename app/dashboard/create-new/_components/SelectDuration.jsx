@@ -15,7 +15,7 @@ const SelectDuration = ({onUserSelect}) => {
         <p className='text-gray-500'>Select the video duration</p>
         <Select onValueChange={(value)=> onUserSelect('duration', value)}>
             <SelectTrigger className="w-full p-6 text-lg">
-                <SelectValue placeholder="Content Type" />
+                <SelectValue placeholder="Select Duration" />
             </SelectTrigger>
             <SelectContent>
                 <SelectItem value="15 Seconds">15 Seconds</SelectItem>

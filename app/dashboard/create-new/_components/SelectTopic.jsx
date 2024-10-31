@@ -49,6 +49,8 @@ const SelectTopic = ({onUserSelect}) => {
     <div className='flex flex-col gap-3'>
         <h2 className='font-bold text-2xl text-primary'>Content</h2>
         <p className='text-gray-500'>What is the topic of your video?</p>
+
+        {/* ShadCN Select functionality */}
         <Select onValueChange={(value)=> {
             setSelectedOption(value)
             value!="Custom Prompts" && onUserSelect('topic', value)
