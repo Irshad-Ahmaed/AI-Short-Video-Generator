@@ -8,13 +8,14 @@ export async function POST(request) {
         // It's a download URL which comes from after storing the audio in Firebase Storage
         const { audioFileUrl } = await request.json();
 
+        console.log("file:", audioFileUrl);
         const client = new AssemblyAI({
             apiKey: process.env.NEXT_PUBLIC_ASSEMBLY_API
         });
 
         // Initializing Audio URL
         const audioUrl = audioFileUrl;
-
+        
         const config = {
             audio_url: audioUrl
         };
