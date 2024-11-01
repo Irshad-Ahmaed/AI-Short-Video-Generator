@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # 
-drizzle
+drizzle.conifg
 # dependencies
 /node_modules
 
