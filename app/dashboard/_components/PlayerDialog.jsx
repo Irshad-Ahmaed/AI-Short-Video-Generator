@@ -13,14 +13,17 @@ import { Button } from '@/components/ui/button';
 import { db } from '@/configs/db';
 import { VideoData } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
+import { useRouter } from 'next/navigation';
 
 const PlayerDialog = ({ playVideo, videoId }) => {
-    const [openDialog, setOpenDialog] = useState(false);
+    const [openDialog, setOpenDialog] = useState(true);
     const [videoData, setVideoData] = useState();
     const [durationInFrame, setDurationInFrame] = useState(100);
 
+    const router = useRouter();
+
     useEffect(() => {
-        setOpenDialog(playVideo);
+        setOpenDialog(!openDialog);
         videoId && GetVideoData();
     }, [playVideo]);
 
@@ -52,7 +55,7 @@ const PlayerDialog = ({ playVideo, videoId }) => {
                         />
 
                         <div className='flex items-center justify-around mt-8'>
-                            <Button variant="ghost" >Cancel</Button>
+                            <Button variant="ghost" onClick={()=> {router.replace('/dashboard'); setOpenDialog(!openDialog)}} >Cancel</Button>
                             <Button className="hover:-translate-y-4 hover:translate-x-1 hover:bg-gray-700 transition-all">Export</Button>
                         </div>
                     </DialogDescription>
