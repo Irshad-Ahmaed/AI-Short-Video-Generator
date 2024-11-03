@@ -10,8 +10,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { VideoDataContext } from '@/app/_context/VideoDataContext';
 import { db } from '@/configs/db';
 import { useUser } from '@clerk/nextjs';
-import { VideoData } from '@/configs/schema';
+import { Users, VideoData } from '@/configs/schema';
 import PlayerDialog from '../_components/PlayerDialog';
+import { UserDetailContext } from '@/app/_context/UserDetailContext';
+import { toast } from 'sonner';
+import { eq } from 'drizzle-orm';
 
 // const scriptData = "In a world where technology had reached unimaginable heights, a sentient robot named Aiko embarked on a journey of self-discovery. Aiko, yearning to understand her own existence, delved into the vast repositories of human history and knowledge. Through her encounters with humans, Aiko discovered the beauty of empathy, friendship, and the complexities of the human experience. ";
 // const audioURL = "https://firebasestorage.googleapis.com/v0/b/ai-short-video-generator-84fe3.appspot.com/o/ai-short-video-files%2Faudios%2F1d8bd612-ff59-49b2-85d1-d7beebb0786a.mp3?alt=media&token=8b9f85bb-d625-4f04-badc-44822041ef21";
@@ -207,6 +210,8 @@ const CreateNew = () => {
   const [playVideo, setPlayVideo] = useState(true);
   const [videoId, setVideoId] = useState(10);
 
+  const {userDetail, setUserDetail} = useContext(UserDetailContext);
+
   const onHandleInputChange = (fieldName, fieldValue) => {
     console.log(fieldName, fieldValue);
     setFormData(prev => ({
@@ -307,13 +312,32 @@ const CreateNew = () => {
       createdBy: user?.primaryEmailAddress?.emailAddress
     }).returning({ id: VideoData.id });
 
+    await updateUserCredits();
     console.log(result);
     setVideoId(result[0].id);
-    setPlayVideo(true);
+    setPlayVideo(false);
     setIsLoading(false);
   };
 
+  // Update User Credits after creating the video
+  const updateUserCredits = async () => {
+    const result = await db.update(Users).set({credits: userDetail?.credits - 10})
+      .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress));
+    console.log(result);
+    setUserDetail(prev=> ({
+      ...prev,
+      'credits': userDetail?.credits - 10
+    }))
+
+    setVideoData(null);
+  }
+
   const onCreateClickHandler = () => {
+    console.log(userDetail?.credits);
+    if(userDetail?.credits < 10){
+      toast("You don't have enough credits");
+      return;
+    }
     setIsLoading(true);
     // saveVideoData(staticData);
     GetVideoScript();
