@@ -55,8 +55,8 @@ const PlayerDialog = ({ playVideo, videoId }) => {
                         />
 
                         <div className='flex items-center justify-around mt-8'>
-                            <Button variant="ghost" onClick={()=> {router.replace('/dashboard'); setOpenDialog(!openDialog)}} >Cancel</Button>
-                            <Button className="hover:-translate-y-4 hover:translate-x-1 hover:bg-gray-700 transition-all">Export</Button>
+                            <Button variant="ghost" className="hover:scale-105 transition-all" onClick={()=> {router.replace('/dashboard'); setOpenDialog(!openDialog)}} >Cancel</Button>
+                            <Button className=" hover:scale-105 hover:bg-gray-700 transition-all">Export</Button>
                         </div>
                     </DialogDescription>
                 </DialogHeader>

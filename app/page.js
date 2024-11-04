@@ -12,15 +12,20 @@ export default function Home() {
       {
 
         user ?
-          <UserButton />
+          <div className="flex gap-5 ml-0.5">
+            <UserButton />
+            <Link href={'/dashboard'}>
+              <Button className="ml-1 scale-105 transition-all hover:bg-gray-600" size="sm">Dashboard</Button>
+            </Link>
+          </div>
           :
           <>
             <Link href={'/sign-in'}>
-              <Button className="ml-1" size="sm">Login</Button>
+              <Button className="ml-1 scale-105 transition-all hover:bg-gray-600" size="sm">Login</Button>
             </Link>
 
             <Link href={'/sign-up'}>
-              <Button className="ml-1" size="sm">SignUp</Button>
+              <Button className="ml-1 scale-105 transition-all hover:bg-gray-600" size="sm">SignUp</Button>
             </Link>
           </>
 
