@@ -322,7 +322,9 @@ const CreateNew = () => {
   // Update User Credits after creating the video
   const updateUserCredits = async () => {
     const result = await db.update(Users).set({credits: userDetail?.credits - 10})
-      .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress));
+      .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
+      .returning({id: Users.id});
+      
     console.log(result);
     setUserDetail(prev=> ({
       ...prev,
@@ -362,6 +364,7 @@ const CreateNew = () => {
 
         {/* Create Button */}
         <Button onClick={onCreateClickHandler} className="mt-10 w-full">Create Short Video</Button>
+        <h3 className='text-center text-yellow-800'>10 Credits Per Video</h3>
       </div>
       <CustomLoading loading={isLoading} />
       <PlayerDialog playVideo={playVideo} videoId={videoId} />

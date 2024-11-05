@@ -22,7 +22,7 @@ const Sidebar = () => {
         {
             id: 1,
             name: "Upgrade",
-            path: "/dashboard/upgrade",
+            path: "/dashboard/buy-credits",
             icon: ShieldPlus
         },
         {

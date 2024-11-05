@@ -2,6 +2,7 @@ import { UserDetailContext } from '@/app/_context/UserDetailContext';
 import { Button } from '@/components/ui/button';
 import { UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useContext } from 'react'
 
 const Header = () => {
@@ -19,7 +20,9 @@ const Header = () => {
             <Image src={'/star.png'} width={25} height={25} />
             <h2 className={`font-semibold ${userDetail?.credits >= 10 ? 'text-yellow-600' : 'text-red-600'}`}>{userDetail?.credits}</h2>
           </div>
-          <Button>Dashboard</Button>
+          <Link href={'/dashboard'}>
+            <Button>Dashboard</Button>
+          </Link>
           <UserButton />
         </div>
     </div>
