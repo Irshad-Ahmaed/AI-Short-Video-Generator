@@ -2,22 +2,19 @@
 import { Button } from "@/components/ui/button";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 
 export default function Home() {
   const { user } = useUser();
+  const router = useRouter();
   return (
     <div>
       <h1 className="text-black">Welcome to my website</h1>
       {
 
         user ?
-          <div className="flex gap-5 ml-0.5">
-            <UserButton />
-            <Link href={'/dashboard'}>
-              <Button className="ml-1 scale-105 transition-all hover:bg-gray-600" size="sm">Dashboard</Button>
-            </Link>
-          </div>
+        router.replace('/dashboard')
           :
           <>
             <Link href={'/sign-in'}>
