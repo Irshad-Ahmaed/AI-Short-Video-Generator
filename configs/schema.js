@@ -17,3 +17,12 @@ export const VideoData = pgTable('videoData', {
     imageList: varchar('imageList').array(),
     createdBy: varchar('createdBy').notNull()
 });
+
+export const UserSubscription = pgTable('userSubscription', {
+    id: serial('id').primaryKey(),
+    email:varchar('email'),
+    userName: varchar('userName'),
+    active:boolean('active'),
+    paymentId: varchar('paymentId'),
+    joinDate: varchar('joinDate')
+});
