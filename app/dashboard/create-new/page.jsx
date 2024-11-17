@@ -251,7 +251,7 @@ const CreateNew = () => {
       const resp = await axios.post('/api/generate-audio', {
         text: script,
         id: id
-      }, { timeout: 60000 });
+      });
 
       console.log(resp.data.Request);
       setVideoData(prev => ({

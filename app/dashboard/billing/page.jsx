@@ -12,24 +12,32 @@ import React, { useContext, useEffect, useState } from 'react';
 const BuySubscription = () => {
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
   const [currentDay, setCurrentDay] = useState(moment().format("YYYY-MM-DD"));
-
+  
   const CreateSubscription = () => {
-    setLoading(true);
+    setCount(1);
+    
+    if(count >=1){
+      setLoading(true);
 
-    axios.post('/api/create-subscription', {})
-      .then(response => {
-        console.log(response.data);
-        OnPayment(response?.data.id);
-      }).catch(error => {
-        console.log(error);
-        setLoading(false);
-      });
+      axios.post('/api/create-subscription', {})
+        .then(response => {
+          console.log(response.data);
+          OnPayment(response?.data.id);
+        }).catch(error => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
+    else{
+      alert("Try again");
+    }
 
   };
 
-  const OnPayment = (subId) => {
+  const OnPayment = async(subId) => {
     const options = {
       "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       "subscription": subId,
@@ -42,8 +50,12 @@ const BuySubscription = () => {
       }
     };
 
-    const rzp = new Razorpay(options);
-    rzp.open();
+    try {
+      const rzp = new Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const SaveSubscription = async (paymentId) => {
