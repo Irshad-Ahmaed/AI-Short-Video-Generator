@@ -55,13 +55,13 @@ const BuySubscription = () => {
       joinDate: moment().format('DD/MM/YY')
     }).returning({ id: UserSubscription.id });
 
-    const subResult = await db.update(Users).set({ subscription: true, credits: userDetail?.credits + 80 })
+    const subResult = await db.update(Users).set({ subscription: true, credits: userDetail?.credits + 30 })
       .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
       .returning({ id: Users.id });
 
     setUserDetail(prev=> ({
       ...prev,
-      'credits': userDetail?.credits + 80
+      'credits': userDetail?.credits + 30
     }))
 
     if (subResult) window.location.reload();
@@ -70,6 +70,10 @@ const BuySubscription = () => {
   const deleteSubscription = async()=>{
     const result = await db.delete(UserSubscription)
       .where(eq(UserSubscription.email, user?.primaryEmailAddress?.emailAddress))
+
+    const subResult = await db.update(Users).set({ subscription: false })
+    .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
+    .returning({ id: Users.id });
     
     console.log(result);
     console.log(subResult);
@@ -82,13 +86,13 @@ const BuySubscription = () => {
       if (today !== currentDay) {
         setCurrentDay(today); // Update state to the new day
          // Call the API or DB update logic
-        const subResult = await db.update(Users).set({ credits: userDetail?.credits + 100 })
+        const subResult = await db.update(Users).set({ credits: userDetail?.credits + 50 })
           .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
           .returning({ id: Users.id });
 
         setUserDetail(prev=> ({
           ...prev,
-          'credits': userDetail?.credits + 100
+          'credits': userDetail?.credits + 50
         }))
 
         if (subResult) window.location.reload();
@@ -129,7 +133,7 @@ const BuySubscription = () => {
           <h2>PAID  </h2>
           <h2><span className='text-3xl mt-10 font-bold'>₹99</span> /month</h2>
           <ol className='flex flex-col gap-4 mt-10 text-sm lg:text-lg'>
-            <li className='flex gap-3'><span>✅</span> 80 credits per day</li>
+            <li className='flex gap-3'><span>✅</span> 30 + 20 credits per day</li>
             <li className='flex gap-3'><span>✅</span> Credits Renew every day</li>
             <li className='flex gap-3'><span>✅</span> Unused Credits add automatically</li>
             <li className='flex gap-3'><span>✅</span> 1 Month Validation</li>
@@ -145,7 +149,7 @@ const BuySubscription = () => {
                 Get Started
               </button>
               :
-              <div className='flex w-full gap-8 my-10'>
+              <div className='flex justify-around w-full gap-8 my-10'>
                 <button disabled='true'
                   className='p-2 transition-all border border-green-400 bg-green-100 rounded-full 
                 text-green-500'>

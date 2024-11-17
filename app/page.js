@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import LandingPage from "./dashboard/_components/LandingPage";
 
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
         router.replace('/dashboard')
           :
           <>
+            <LandingPage />
             <Link href={'/sign-in'}>
               <Button className="ml-1 scale-105 transition-all hover:bg-gray-600" size="sm">Login</Button>
             </Link>
