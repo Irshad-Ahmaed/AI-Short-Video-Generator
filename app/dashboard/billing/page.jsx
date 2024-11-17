@@ -14,19 +14,20 @@ const BuySubscription = () => {
   const [loading, setLoading] = useState(false);
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
   const [currentDay, setCurrentDay] = useState(moment().format("YYYY-MM-DD"));
-  
+
   const CreateSubscription = () => {
+    setLoading(true);
     axios.post('/api/create-subscription', {})
       .then(response => {
         console.log(response.data);
-        OnPayment(response?.data.id);
+        OnPayment(response.data.id);
       }).catch(error => {
         console.log(error);
         setLoading(false);
       });
   };
 
-  const OnPayment = async(subId) => {
+  const OnPayment = async (subId) => {
     const options = {
       "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       "subscription": subId,
@@ -38,16 +39,25 @@ const BuySubscription = () => {
         setLoading(false);
       }
     };
+    InitializeRazorpay(options);
+  };
 
+  const InitializeRazorpay = (options) => {
     try {
-      const rzp = new Razorpay(options);
+      let rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error) {
       alert("try again");
       window.location.reload();
     }
-
   };
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
 
   const SaveSubscription = async (paymentId) => {
     const result = await db.insert(UserSubscription).values({
@@ -62,41 +72,41 @@ const BuySubscription = () => {
       .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
       .returning({ id: Users.id });
 
-    setUserDetail(prev=> ({
+    setUserDetail(prev => ({
       ...prev,
       'credits': userDetail?.credits + 30
-    }))
+    }));
 
     if (subResult) window.location.reload();
   };
 
-  const deleteSubscription = async()=>{
+  const deleteSubscription = async () => {
     const result = await db.delete(UserSubscription)
-      .where(eq(UserSubscription.email, user?.primaryEmailAddress?.emailAddress))
+      .where(eq(UserSubscription.email, user?.primaryEmailAddress?.emailAddress));
 
     const subResult = await db.update(Users).set({ subscription: false })
-    .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
-    .returning({ id: Users.id });
-    
+      .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
+      .returning({ id: Users.id });
+
     console.log(result);
     console.log(subResult);
     if (result) window.location.reload();
-  }
+  };
 
   useEffect(() => {
-    const checkForNewDay = async() => {
+    const checkForNewDay = async () => {
       const today = moment().format("YYYY-MM-DD");
       if (today !== currentDay) {
         setCurrentDay(today); // Update state to the new day
-         // Call the API or DB update logic
+        // Call the API or DB update logic
         const subResult = await db.update(Users).set({ credits: userDetail?.credits + 50 })
           .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
           .returning({ id: Users.id });
 
-        setUserDetail(prev=> ({
+        setUserDetail(prev => ({
           ...prev,
           'credits': userDetail?.credits + 50
-        }))
+        }));
 
         if (subResult) window.location.reload();
       }
@@ -110,7 +120,7 @@ const BuySubscription = () => {
 
   return (
     <div className='p-10 md:px-20 lg:px-40 text-center'>
-      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      {/* <script src="https://checkout.razorpay.com/v1/checkout.js"></script> */}
       <h2 className='text-3xl font-bold text-primary'>Upgrade With Monthly Plan</h2>
       <div className='grid grid-cols-1 lg:grid-cols-2 mt-10 gap-10 rounded-xl items-center justify-center'>
 
@@ -158,7 +168,7 @@ const BuySubscription = () => {
                 text-green-500'>
                   Currently Active Plan
                 </button>
-                <button onClick={()=> deleteSubscription()}
+                <button onClick={() => deleteSubscription()}
                   className='p-2 transition-all border border-red-400 bg-red-100 rounded-full 
                 text-red-500 hover:bg-white'>
                   Delete Subscription
