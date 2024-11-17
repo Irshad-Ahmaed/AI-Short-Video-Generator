@@ -13,7 +13,7 @@ export async function POST(req) {
         const { text, id } = await req.json();
 
         // Create the reference where your data is store
-        const storageRef = ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
+        const storageRef = await ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
 
         const request = {
             input: { text: text },
