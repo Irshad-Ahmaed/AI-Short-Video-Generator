@@ -25,7 +25,7 @@ export async function POST(req) {
 
         // Performs the text-to-speech request
         const [response] = await client.synthesizeSpeech(request);
-
+        console.log(response);
         // Create the buffer format for audio
         const audioBuffer = Buffer.from(response.audioContent, 'binary');
 

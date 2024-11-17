@@ -297,7 +297,7 @@ const CreateNew = () => {
 
   useEffect(() => {
     console.log(videoData);
-    if (Object.keys(videoData).length == 4) saveVideoData(videoData);
+    if (videoData && Object.keys(videoData).length == 4) saveVideoData(videoData);
 
   }, [videoData]);
 
