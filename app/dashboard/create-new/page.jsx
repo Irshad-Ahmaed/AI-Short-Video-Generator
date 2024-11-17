@@ -255,13 +255,14 @@ const CreateNew = () => {
       });
       console.log("end");
 
+      console.log(resp);
       console.log(resp.data.Request);
       
       setVideoData(prev => ({
         ...prev,
         'audioFileUrl': resp.data.Request
       }));
-      
+
       resp.data.Request && await generateAudioCaption(resp.data.Request, videoScriptData);
     } catch (error) {
       console.error('Error generating audio file:', error.message);
