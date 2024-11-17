@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 const textToSpeech = require('@google-cloud/text-to-speech');
 
 const client = new textToSpeech.TextToSpeechClient({
-    apiKey:'AIzaSyC_LryFtohSMah4T3QMWzSEwMvUXDWPNMo'
+    apiKey: process.env.GOOGLE_API_KEY
 });
 
 export async function POST(req) {
@@ -13,10 +13,10 @@ export async function POST(req) {
         const { text, id } = await req.json();
 
         // Create the reference where your data is store
-        const storageRef = ref(storage, `ai-short-video-files/audios/${id}.mp3`);
-        
+        const storageRef = ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
+
         const request = {
-            input: { text },
+            input: { text: text },
             // Select the language and SSML voice gender (optional)
             voice: { languageCode: 'en-US', ssmlGender: 'FEMALE' },
             // select the type of audio encoding

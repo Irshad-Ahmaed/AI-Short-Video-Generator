@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import {getStorage} from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAmeNBPt7Od_AlT476P5GhYLLocru6dYQo',
+  apiKey: process.env.FIRE_BASE_API_KEY,
   authDomain: "ai-short-video-generator-84fe3.firebaseapp.com",
   projectId: "ai-short-video-generator-84fe3",
   storageBucket: "ai-short-video-generator-84fe3.appspot.com",
