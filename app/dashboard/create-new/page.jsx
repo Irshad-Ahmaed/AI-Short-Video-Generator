@@ -15,6 +15,7 @@ import PlayerDialog from '../_components/PlayerDialog';
 import { UserDetailContext } from '@/app/_context/UserDetailContext';
 import { toast } from 'sonner';
 import { eq } from 'drizzle-orm';
+import axiosInstance from '@/app/axiosInstance';
 
 // const scriptData = "In a world where technology had reached unimaginable heights, a sentient robot named Aiko embarked on a journey of self-discovery. Aiko, yearning to understand her own existence, delved into the vast repositories of human history and knowledge. Through her encounters with humans, Aiko discovered the beauty of empathy, friendship, and the complexities of the human experience. ";
 // const audioURL = "https://firebasestorage.googleapis.com/v0/b/ai-short-video-generator-84fe3.appspot.com/o/ai-short-video-files%2Faudios%2F1d8bd612-ff59-49b2-85d1-d7beebb0786a.mp3?alt=media&token=8b9f85bb-d625-4f04-badc-44822041ef21";
@@ -247,7 +248,7 @@ const CreateNew = () => {
     });
 
     console.log(script);
-    const resp = await axios.post('/api/generate-audio', {
+    const resp = await axiosInstance.post('/api/generate-audio', {
       text: script,
       id: id
     });
