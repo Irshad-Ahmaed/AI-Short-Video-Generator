@@ -10,12 +10,11 @@ const client = new textToSpeech.TextToSpeechClient({
 
 export async function POST(req) {
     try {
-        console.log("start");
         const { text, id } = await req.json();
-        console.log(text, " " ,id);
+
         // Create the reference where your data is store
-        const storageRef = ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
-        console.log("storage pass");
+        const storageRef = ref(storage, `ai-short-video-files/audios/${id}.mp3`);
+
         const request = {
             input: { text: text },
             // Select the language and SSML voice gender (optional)
@@ -23,10 +22,10 @@ export async function POST(req) {
             // select the type of audio encoding
             audioConfig: { audioEncoding: 'MP3' }
         };
-        console.log(request);
+
         // Performs the text-to-speech request
         const [response] = await client.synthesizeSpeech(request);
-        console.log(response);
+
         // Create the buffer format for audio
         const audioBuffer = Buffer.from(response.audioContent, 'binary');
 
@@ -40,6 +39,6 @@ export async function POST(req) {
         return NextResponse.json({ Request: downloadUrl });
     } catch (error) {
         console.error('Error processing request:', error);
-        return NextResponse.json({ error: 'Error processing request.' }, { status: 500 });
+        return NextResponse.json({ error: 'Error processing request.' }, { status: 500});
     }
 }
