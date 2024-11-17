@@ -248,18 +248,20 @@ const CreateNew = () => {
 
     console.log(script);
     try {
+      console.log("start");
       const resp = await axios.post('/api/generate-audio', {
         text: script,
         id: id
       });
+      console.log("end");
 
       console.log(resp.data.Request);
-      console.log("start");
+      
       setVideoData(prev => ({
         ...prev,
         'audioFileUrl': resp.data.Request
       }));
-      console.log("end");
+      
       resp.data.Request && await generateAudioCaption(resp.data.Request, videoScriptData);
     } catch (error) {
       console.error('Error generating audio file:', error.message);
