@@ -10,11 +10,12 @@ const client = new textToSpeech.TextToSpeechClient({
 
 export async function POST(req) {
     try {
+        console.log("start");
         const { text, id } = await req.json();
-
+        console.log(text, " " ,id);
         // Create the reference where your data is store
         const storageRef = ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
-
+        console.log("storage pass");
         const request = {
             input: { text: text },
             // Select the language and SSML voice gender (optional)
