@@ -9,10 +9,11 @@ import { db } from '@/configs/db';
 import { Users } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 
-const DashboardLayout = ({children}) => {
+const DashboardLayout = ({children, isOpen}) => {
   const [videoData, setVideoData] = useState([]);
   const [userDetail, setUserDetail] = useState([]);
   const {user} = useUser();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(()=> {
     user && getUserDetail();
@@ -29,12 +30,12 @@ const DashboardLayout = ({children}) => {
     <UserDetailContext.Provider value={{userDetail, setUserDetail}}>
       <VideoDataContext.Provider value={{videoData, setVideoData}}>
       <div>
-        <div className='hidden md:block h-screen bg-white fixed mt-[65px]'>
-          <Sidebar />
+        <div className='bg-white fixed mt-[65px] z-30'>
+          <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
         </div>
         <div>
           <Header/>
-          <div className='md:ml-64 p-10'>
+          <div className={`${isSidebarOpen && 'lg:ml-64'} p-10`}>
             {children}
           </div>
         </div>

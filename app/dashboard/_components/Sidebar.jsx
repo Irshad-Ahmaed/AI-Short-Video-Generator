@@ -1,11 +1,12 @@
 "use client"
 import { Button } from '@/components/ui/button';
-import { CircleUser, FileVideo, Key, PanelsTopLeftIcon, ShieldPlus } from 'lucide-react';
+import { CircleUser, FileVideo, Key, LucideLogOut, MenuSquareIcon, PanelsTopLeftIcon, ShieldPlus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
+import DashboardLayout from '../layout';
 
-const Sidebar = () => {
+const Sidebar = ({isSidebarOpen, setIsSidebarOpen}) => {
     const MenuOptions = [
         {
             id: 1,
@@ -36,7 +37,9 @@ const Sidebar = () => {
     const path = usePathname();
 
   return (
-    <div className='w-64 shadow-md h-screen p-5'>
+    
+    isSidebarOpen ?
+    <div className='w-64 shadow-md p-5 flex justify-between items-end flex-col'>
         <div className='grid gap-3'>
         {
             MenuOptions.map((menu, index)=>(
@@ -50,7 +53,11 @@ const Sidebar = () => {
             ))
         }
         </div>
+        <LucideLogOut onClick={()=>setIsSidebarOpen(!isSidebarOpen)} className='rotate-180 h-screen cursor-pointer' width={24} height={24} />
     </div>
+    :
+    <MenuSquareIcon onClick={()=> setIsSidebarOpen(!isSidebarOpen)} width={30} height={30} className='fixed text-gray-500 cursor-pointer top-24 lg:top-20' />
+    
   )
 }
 
