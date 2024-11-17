@@ -210,7 +210,7 @@ const CreateNew = () => {
   const [playVideo, setPlayVideo] = useState(true);
   const [videoId, setVideoId] = useState(10);
 
-  const {userDetail, setUserDetail} = useContext(UserDetailContext);
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
 
   const onHandleInputChange = (fieldName, fieldValue) => {
     console.log(fieldName, fieldValue);
@@ -247,16 +247,23 @@ const CreateNew = () => {
     });
 
     console.log(script);
-    const resp = await axios.post('/api/generate-audio', {
-      text: script,
-      id: id
-    }, { timeout: 20000 });
-    console.log(resp.data.Request);
-    setVideoData(prev => ({
-      ...prev,
-      'audioFileUrl': resp.data.Request
-    }));
-    resp.data.Request && await generateAudioCaption(resp.data.Request, videoScriptData);
+    try {
+      const resp = await axios.post('/api/generate-audio', {
+        text: script,
+        id: id
+      }, { timeout: 60000 });
+
+      console.log(resp.data.Request);
+      setVideoData(prev => ({
+        ...prev,
+        'audioFileUrl': resp.data.Request
+      }));
+
+      resp.data.Request && await generateAudioCaption(resp.data.Request, videoScriptData);
+    } catch (error) {
+      console.error('Error generating audio file:', error.message);
+      alert('Failed to generate audio. Please try again later.');
+    }
   };
 
   // Generate Audio Caption from audio file:
@@ -321,22 +328,22 @@ const CreateNew = () => {
 
   // Update User Credits after creating the video
   const updateUserCredits = async () => {
-    const result = await db.update(Users).set({credits: userDetail?.credits - 10})
+    const result = await db.update(Users).set({ credits: userDetail?.credits - 10 })
       .where(eq(Users.email, user?.primaryEmailAddress?.emailAddress))
-      .returning({id: Users.id});
-      
+      .returning({ id: Users.id });
+
     console.log(result);
-    setUserDetail(prev=> ({
+    setUserDetail(prev => ({
       ...prev,
       'credits': userDetail?.credits - 10
-    }))
+    }));
 
     setVideoData(null);
-  }
+  };
 
   const onCreateClickHandler = () => {
     console.log(userDetail?.credits);
-    if(userDetail?.credits < 10){
+    if (userDetail?.credits < 10) {
       toast("You don't have enough credits");
       return;
     }
