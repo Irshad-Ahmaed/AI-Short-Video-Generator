@@ -22,7 +22,7 @@ export async function POST(req) {
             // select the type of audio encoding
             audioConfig: { audioEncoding: 'MP3' }
         };
-
+        console.log(request);
         // Performs the text-to-speech request
         const [response] = await client.synthesizeSpeech(request);
         console.log(response);
