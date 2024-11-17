@@ -248,7 +248,7 @@ const CreateNew = () => {
     });
 
     console.log(script);
-    const resp = await axiosInstance.post('/api/generate-audio', {
+    const resp = await axiosInstance.post('/generate-audio', {
       text: script,
       id: id
     });
