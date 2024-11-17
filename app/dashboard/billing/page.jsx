@@ -12,29 +12,18 @@ import React, { useContext, useEffect, useState } from 'react';
 const BuySubscription = () => {
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
-  const [count, setCount] = useState(0);
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
   const [currentDay, setCurrentDay] = useState(moment().format("YYYY-MM-DD"));
   
   const CreateSubscription = () => {
-    setCount(1);
-    
-    if(count >=1){
-      setLoading(true);
-
-      axios.post('/api/create-subscription', {})
-        .then(response => {
-          console.log(response.data);
-          OnPayment(response?.data.id);
-        }).catch(error => {
-          console.log(error);
-          setLoading(false);
-        });
-    }
-    else{
-      alert("Try again");
-    }
-
+    axios.post('/api/create-subscription', {})
+      .then(response => {
+        console.log(response.data);
+        OnPayment(response?.data.id);
+      }).catch(error => {
+        console.log(error);
+        setLoading(false);
+      });
   };
 
   const OnPayment = async(subId) => {
@@ -54,8 +43,10 @@ const BuySubscription = () => {
       const rzp = new Razorpay(options);
       rzp.open();
     } catch (error) {
-      console.log(error);
+      alert("try again");
+      window.location.reload();
     }
+
   };
 
   const SaveSubscription = async (paymentId) => {
