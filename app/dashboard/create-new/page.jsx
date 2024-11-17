@@ -254,11 +254,12 @@ const CreateNew = () => {
       });
 
       console.log(resp.data.Request);
+      console.log("start");
       setVideoData(prev => ({
         ...prev,
         'audioFileUrl': resp.data.Request
       }));
-
+      console.log("end");
       resp.data.Request && await generateAudioCaption(resp.data.Request, videoScriptData);
     } catch (error) {
       console.error('Error generating audio file:', error.message);
