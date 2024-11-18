@@ -251,7 +251,7 @@ const CreateNew = () => {
     console.log(script);
     try {
       console.log("start");
-      console.log("ENV " + process.env.GOOGLE_API_KEY);
+      console.log("ENV " + 'AIzaSyC_LryFtohSMah4T3QMWzSEwMvUXDWPNMo');
       // Create the reference where your data is store
       const storageRef = await ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
       console.log("storageRef " + storageRef);
@@ -270,7 +270,11 @@ const CreateNew = () => {
           'audioFileUrl': resp?.data.Request
         }))
         resp?.data.Request && generateAudioCaption(resp?.data.Request, videoScriptData)
-      }).catch(error => {console.log(error);})
+      }).catch(error => {
+        console.log(error);
+        alert('Oops!, looks like something went wrong');
+        window.location.reload();
+      });
     } catch (error) {
       console.error('Error generating audio file:', error.message);
       alert('Oops!, looks like something went wrong');
