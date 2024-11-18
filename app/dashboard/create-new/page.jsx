@@ -265,7 +265,7 @@ const CreateNew = () => {
         resp?.data.Request && generateAudioCaption(resp?.data.Request, videoScriptData)
       }).catch(error => {
         console.log(error);
-        alert('Oops!, looks like something went wrong');
+        alert('Oops!, looks like error occur during Generating Audio');
         window.location.reload();
       });
     } catch (error) {
