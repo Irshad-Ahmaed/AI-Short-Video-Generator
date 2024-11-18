@@ -10,10 +10,7 @@ const client = new textToSpeech.TextToSpeechClient({
 
 export async function POST(req) {
     try {
-        const { text, id } = await req.json();
-
-        // Create the reference where your data is store
-        const storageRef = await ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
+        const { text, storageRef } = await req.json();
 
         const request = {
             input: { text: text },
