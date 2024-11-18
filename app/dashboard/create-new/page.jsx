@@ -18,7 +18,6 @@ import { eq } from 'drizzle-orm';
 
 import { storage } from "@/configs/FirebaseConfig";
 import { ref } from "firebase/storage";
-const textToSpeech = require('@google-cloud/text-to-speech');
 // const scriptData = "In a world where technology had reached unimaginable heights, a sentient robot named Aiko embarked on a journey of self-discovery. Aiko, yearning to understand her own existence, delved into the vast repositories of human history and knowledge. Through her encounters with humans, Aiko discovered the beauty of empathy, friendship, and the complexities of the human experience. ";
 // const audioURL = "https://firebasestorage.googleapis.com/v0/b/ai-short-video-generator-84fe3.appspot.com/o/ai-short-video-files%2Faudios%2F1d8bd612-ff59-49b2-85d1-d7beebb0786a.mp3?alt=media&token=8b9f85bb-d625-4f04-badc-44822041ef21";
 // const VideoScripT = [
@@ -256,7 +255,8 @@ const CreateNew = () => {
       // Create the reference where your data is store
       const storageRef = ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
       console.log("storageRef " + storageRef);
-
+      
+      const textToSpeech = require('@google-cloud/text-to-speech');
       const client = new textToSpeech.TextToSpeechClient({
         apiKey: 'AIzaSyC_LryFtohSMah4T3QMWzSEwMvUXDWPNMo'
       });
