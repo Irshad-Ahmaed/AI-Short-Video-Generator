@@ -253,11 +253,26 @@ const CreateNew = () => {
       console.log("start");
       console.log("ENV " + 'AIzaSyC_LryFtohSMah4T3QMWzSEwMvUXDWPNMo');
       // Create the reference where your data is store
-      const storageRef = await ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
+      const storageRef = ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
       console.log("storageRef " + storageRef);
 
+      const client = new textToSpeech.TextToSpeechClient({
+        apiKey: 'AIzaSyC_LryFtohSMah4T3QMWzSEwMvUXDWPNMo'
+      });
+
+      const request = {
+        input: { text: text },
+        // Select the language and SSML voice gender (optional)
+        voice: { languageCode: 'en-US', ssmlGender: 'FEMALE' },
+        // select the type of audio encoding
+        audioConfig: { audioEncoding: 'MP3' }
+      };
+
+      // Performs the text-to-speech request
+      const [response] = await client.synthesizeSpeech(request);
+
       await axios.post('/api/generate-audio', {
-        text: script,
+        response: response,
         storageRef: storageRef
       }).then(resp=>{
         console.log("end");
