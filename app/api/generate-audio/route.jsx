@@ -3,25 +3,28 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { NextResponse } from "next/server";
 
 // const textToSpeech = require('@google-cloud/text-to-speech');
-
-// const client = new textToSpeech.TextToSpeechClient({
-//     apiKey: AIzaSyC_LryFtohSMah4T3QMWzSEwMvUXDWPNMo
-// });
+import { TextToSpeechClient } from "@google-cloud/text-to-speech";
+const client = new TextToSpeechClient({
+    apiKey: process.env.GOOGLE_API_KEY
+});
 
 export async function POST(req) {
     try {
-        const { response, storageRef } = await req.json();
+        const { text, id } = await req.json();
 
-        // const request = {
-        //     input: { text: text },
-        //     // Select the language and SSML voice gender (optional)
-        //     voice: { languageCode: 'en-US', ssmlGender: 'FEMALE' },
-        //     // select the type of audio encoding
-        //     audioConfig: { audioEncoding: 'MP3' }
-        // };
+        // Create the reference where your data is store
+        const storageRef = ref(storage, 'ai-short-video-files/audios/' + id + '.mp3');
 
-        // // Performs the text-to-speech request
-        // const [response] = await client.synthesizeSpeech(request);
+        const request = {
+            input: { text: text },
+            // Select the language and SSML voice gender (optional)
+            voice: { languageCode: 'en-US', ssmlGender: 'FEMALE' },
+            // select the type of audio encoding
+            audioConfig: { audioEncoding: 'MP3' }
+        };
+
+        // Performs the text-to-speech request
+        const [response] = await client.synthesizeSpeech(request);
 
         // Create the buffer format for audio
         const audioBuffer = Buffer.from(response.audioContent, 'binary');
