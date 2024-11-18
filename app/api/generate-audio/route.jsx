@@ -2,7 +2,7 @@ import { storage } from "@/configs/FirebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { NextResponse } from "next/server";
 
-const textToSpeech = require('@google-cloud/text-to-speech');
+// const textToSpeech = require('@google-cloud/text-to-speech');
 
 // const client = new textToSpeech.TextToSpeechClient({
 //     apiKey: AIzaSyC_LryFtohSMah4T3QMWzSEwMvUXDWPNMo
